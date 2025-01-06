@@ -4,16 +4,9 @@ import re
 import requests
 from funcs import extract_github_stars
 
-# HTMLファイルのパス
-file_path = './view-source_https___themes.gohugo.io.html'
-
 url = "https://themes.gohugo.io/"
 response = requests.get(url)
 html_content = response.text
-
-# # HTMLファイルを開いて内容を読み込む
-# with open(file_path, 'r', encoding='utf-8') as file:
-#     html_content = file.read()
 
 # 正規表現パターンを定義
 pattern = r'https://themes\.gohugo\.io/themes/[^/]+/'
@@ -39,9 +32,9 @@ for url in urls_stars:
         print(f"例外です {url}: \n {e}")
         break
 
-    pass
-
 print("Success!! ########################################################")
 
-sorted_urls_stars = sorted(urls_stars.items(), key=lambda item: item[1])
-print(sorted_urls_stars)
+sorted_urls_stars = dict(sorted(urls_stars.items(), key=lambda item: item[1], reverse=True))
+top_20 = dict(list(sorted_urls_stars.items())[:20])
+for key, value in top_20.items():
+    print(f"URL= {key} : {value}")
